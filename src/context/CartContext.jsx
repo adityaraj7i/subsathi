@@ -17,32 +17,40 @@ export const initialHeroBadges = [
   {
     id: 'badge-1',
     label: 'Top-Left Floating Badge',
-    position: 'top-6 left-3 md:top-10 md:left-6 lg:top-12 lg:left-10 xl:left-24 2xl:left-48 -rotate-12',
+    position: 'top-3 sm:top-12 -rotate-12 left-2 sm:left-4 lg:top-24 md:top-16 lg:left-10 xl:left-32 2xl:left-72',
     delay: '0s',
     front: { name: 'ChatGPT Plus', slug: 'chatgpt-plus', imageUrl: '' },
     back: { name: 'Gemini Pro', slug: 'gemini-pro-5tb-storage', imageUrl: '' }
   },
   {
     id: 'badge-2',
-    label: 'Top-Right Floating Badge',
-    position: 'top-6 right-3 md:top-10 md:right-6 lg:top-12 lg:right-10 xl:right-24 2xl:right-48 rotate-12',
-    delay: '0.3s',
-    front: { name: 'Adobe Creative Cloud', slug: 'adobe-creative-cloud', imageUrl: '' },
-    back: { name: 'Canva Pro', slug: 'canva-pro', imageUrl: '' }
-  },
-  {
-    id: 'badge-3',
-    label: 'Bottom-Left Floating Badge',
-    position: 'bottom-6 left-3 md:bottom-10 md:left-8 lg:bottom-12 lg:left-14 xl:left-28 2xl:left-52 -rotate-6',
-    delay: '0.6s',
+    label: 'Top-Center Floating Badge',
+    position: 'top-1 sm:top-2 lg:top-6 md:top-2 left-1/2 -translate-x-1/2',
+    delay: '0.2s',
     front: { name: 'Netflix', slug: 'netflix', imageUrl: '' },
     back: { name: 'Prime Video', slug: 'prime-video', imageUrl: '' }
   },
   {
+    id: 'badge-3',
+    label: 'Top-Right Floating Badge',
+    position: 'top-3 sm:top-12 rotate-12 right-2 sm:right-4 lg:top-24 md:top-16 lg:right-10 xl:right-32 2xl:right-72',
+    delay: '0.4s',
+    front: { name: 'Adobe Creative Cloud', slug: 'adobe-creative-cloud', imageUrl: '' },
+    back: { name: 'Canva Pro', slug: 'canva-pro', imageUrl: '' }
+  },
+  {
     id: 'badge-4',
+    label: 'Bottom-Left Floating Badge',
+    position: 'bottom-3 sm:bottom-12 -rotate-12 left-2 sm:left-4 lg:bottom-20 md:bottom-14 lg:left-24 xl:left-36 2xl:left-72',
+    delay: '0.6s',
+    front: { name: 'Microsoft 365', slug: 'microsoft-365-family-tier-sharing', imageUrl: '' },
+    back: { name: 'AutoCAD', slug: 'autocad', imageUrl: '' }
+  },
+  {
+    id: 'badge-5',
     label: 'Bottom-Right Floating Badge',
-    position: 'bottom-6 right-3 md:bottom-10 md:right-8 lg:bottom-12 lg:right-14 xl:right-28 2xl:right-52 rotate-6',
-    delay: '0.9s',
+    position: 'bottom-3 sm:bottom-12 rotate-12 right-2 sm:right-4 lg:bottom-20 md:bottom-14 lg:right-16 xl:right-36 2xl:right-72',
+    delay: '0.8s',
     front: { name: 'Spotify', slug: 'spotify', imageUrl: '' },
     back: { name: 'NordVPN', slug: 'nord-vpn', imageUrl: '' }
   }

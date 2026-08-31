@@ -3,6 +3,7 @@ import { TopBar } from './components/TopBar';
 import { Navbar } from './components/Navbar';
 import { CategoryNav } from './components/CategoryNav';
 import { HeroSection } from './components/HeroSection';
+import { PromoBannerSlider } from './components/PromoBannerSlider';
 import { FlashDeals } from './components/FlashDeals';
 import { ComboDeals } from './components/ComboDeals';
 import { FeaturedCategories } from './components/FeaturedCategories';
@@ -150,6 +151,9 @@ export function App() {
                   onShopNow={handleShopNow}
                   onComboDeals={handleComboDeals}
                 />
+
+                {/* Section 2: Promo Banner Slider (Ottsathi Section 2) */}
+                <PromoBannerSlider />
 
                 {/* Flash Sales with Red Countdown Clock */}
                 <FlashDeals products={productsList} />

@@ -75,7 +75,7 @@ export const Navbar = ({ selectedCategory, onSelectCategory, searchQuery, setSea
                 />
               </a>
 
-              {/* Desktop Search Bar (Wider, taller and more spacious) */}
+              {/* Desktop Search Bar (Exact Ottsathi Layout) */}
               <div ref={searchRef} className="relative flex-1 max-w-2xl xl:max-w-3xl mx-4 xl:mx-8 hidden lg:block">
                 <form
                   onSubmit={(e) => {
@@ -86,26 +86,21 @@ export const Navbar = ({ selectedCategory, onSelectCategory, searchQuery, setSea
                   }}
                   className="relative flex items-center"
                 >
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Search className="w-4 h-4 text-gray-900" />
+                  </div>
                   <input
-                    type="search"
+                    type="text"
                     value={searchQuery}
                     onChange={(e) => {
                       setSearchQuery(e.target.value);
                       setIsSearchFocused(true);
                     }}
                     onFocus={() => setIsSearchFocused(true)}
-                    placeholder="Search Netflix, Spotify, Prime, ChatGPT, Canva..."
-                    className="w-full bg-[#f4f7fa] text-gray-800 placeholder-gray-400 pl-5 pr-14 py-3 rounded-full text-sm sm:text-base border border-gray-200 focus:outline-hidden focus:border-[#293d67] focus:bg-white transition-all shadow-inner font-medium"
-                    aria-label="Search subscriptions"
+                    placeholder="Search products by name or type..."
+                    className="w-full pl-10 pr-4 py-2 border border-gray-100 bg-gray-200 rounded-full focus:outline-none focus:border-[#293d67] focus:ring-1 focus:ring-[#293d67] transition-all placeholder:text-black font-medium text-sm text-gray-900"
+                    aria-label="Search products"
                   />
-                  
-                  <button
-                    type="submit"
-                    className="absolute right-1.5 w-9 h-9 bg-[#293d67] hover:bg-[#1e4cb1] text-white rounded-full flex items-center justify-center transition-colors cursor-pointer shadow-xs"
-                    aria-label="Submit search"
-                  >
-                    <Search className="w-4 h-4" />
-                  </button>
                 </form>
 
                 {/* Autocomplete Search Dropdown */}
@@ -194,8 +189,8 @@ export const Navbar = ({ selectedCategory, onSelectCategory, searchQuery, setSea
             </div>
           </div>
 
-          {/* Mobile Search Bar */}
-          <div className="mt-3 lg:hidden">
+          {/* Mobile Search Bar (Exact Ottsathi Layout) */}
+          <div className="mt-2.5 lg:hidden">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -204,19 +199,17 @@ export const Navbar = ({ selectedCategory, onSelectCategory, searchQuery, setSea
               }}
               className="relative flex items-center"
             >
+              <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+                <Search className="w-4 h-4 text-gray-900" />
+              </div>
               <input
-                type="search"
+                type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search Netflix, Spotify, Prime, ChatGPT..."
-                className="w-full bg-[#f4f7fa] text-gray-800 placeholder-gray-400 pl-4 pr-12 py-2.5 rounded-full text-xs sm:text-sm border border-gray-200 focus:outline-hidden focus:border-[#293d67] focus:bg-white transition-all shadow-inner font-medium"
+                placeholder="Search products by name or type..."
+                className="w-full bg-gray-200 placeholder:text-black border border-gray-300 rounded-full pl-10 pr-3 py-2 text-xs sm:text-sm focus:outline-none focus:border-[#293d67] font-medium text-gray-900"
+                aria-label="Search products"
               />
-              <button
-                type="submit"
-                className="absolute right-1 w-8 h-8 bg-[#293d67] text-white rounded-full flex items-center justify-center transition-colors"
-              >
-                <Search className="w-3.5 h-3.5" />
-              </button>
             </form>
           </div>
         </div>
