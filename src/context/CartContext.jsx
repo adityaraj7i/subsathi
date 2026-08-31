@@ -152,33 +152,74 @@ export const CartProvider = ({ children }) => {
     }
   });
 
-  // Check if Admin Portal route (/aresxayu6720 or ?view=aresxayu6720 or ?aresxayu6720) is active
-  const checkIsAdminUrl = () => {
+  // Comprehensive route parser to determine active view, product, policy, admin, or 404 Not Found
+  const parseCurrentRoute = (products = productsList) => {
     try {
-      const path = window.location.pathname.toLowerCase();
+      const rawPath = window.location.pathname.toLowerCase().replace(/\/+$/, '');
+      const path = rawPath === '' ? '/' : rawPath;
       const params = new URLSearchParams(window.location.search);
-      return (
-        path.includes('/aresxayu6720') ||
+
+      // 1. Check if Admin Portal URL (/aresxayu6720 or ?view=aresxayu6720)
+      if (
+        path === '/aresxayu6720' ||
         params.get('view') === 'aresxayu6720' ||
         params.has('aresxayu6720')
-      );
+      ) {
+        return { isAdmin: true, isBilling: false, policyPage: null, product: null, is404: false };
+      }
+
+      // 2. Check if Billing / Checkout URL (/billing or /checkout or ?view=billing)
+      if (path === '/billing' || path === '/checkout' || params.get('view') === 'billing') {
+        return { isAdmin: false, isBilling: true, policyPage: null, product: null, is404: false };
+      }
+
+      // 3. Check if Policy Pages (/about-us, /contact, etc. or ?page=about-us)
+      const policyKeys = [
+        'about-us',
+        'contact',
+        'how-it-works',
+        'refund-policy',
+        'warranty-policy',
+        'privacy-policy',
+        'terms-conditions',
+        'support-desk'
+      ];
+      const matchedPolicy = policyKeys.find(k => path === `/${k}`) || (params.get('page') && policyKeys.includes(params.get('page')) ? params.get('page') : null);
+      if (matchedPolicy) {
+        return { isAdmin: false, isBilling: false, policyPage: matchedPolicy, product: null, is404: false };
+      }
+
+      // 4. Check if Product Detail Page (/product/:slug or ?product=slug)
+      let productSlug = params.get('product');
+      if (!productSlug && (path.startsWith('/product/') || path.startsWith('/p/'))) {
+        productSlug = path.split('/')[2];
+      }
+      if (productSlug) {
+        const found = products.find(p => p.slug === productSlug || p.id === productSlug);
+        if (found) {
+          return { isAdmin: false, isBilling: false, policyPage: null, product: found, is404: false };
+        }
+      }
+
+      // 5. Official Root Homepage
+      if (path === '/' || path === '/index.html') {
+        return { isAdmin: false, isBilling: false, policyPage: null, product: null, is404: false };
+      }
+
+      // 6. Any other entered path -> 404 NOT FOUND
+      return { isAdmin: false, isBilling: false, policyPage: null, product: null, is404: true };
     } catch {
-      return false;
+      return { isAdmin: false, isBilling: false, policyPage: null, product: null, is404: false };
     }
   };
 
-  // Check if Billing Checkout Page is active
-  const checkIsBillingUrl = () => {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('view') === 'billing';
-    } catch {
-      return false;
-    }
-  };
+  const initialRoute = parseCurrentRoute(productsList);
 
-  const [isAdminPortalOpen, setIsAdminPortalOpen] = useState(() => checkIsAdminUrl());
-  const [isBillingPageOpen, setIsBillingPageOpen] = useState(() => checkIsBillingUrl());
+  const [isAdminPortalOpen, setIsAdminPortalOpen] = useState(initialRoute.isAdmin);
+  const [isBillingPageOpen, setIsBillingPageOpen] = useState(initialRoute.isBilling);
+  const [activePolicyPage, setActivePolicyPage] = useState(initialRoute.policyPage);
+  const [selectedProduct, setSelectedProduct] = useState(initialRoute.product);
+  const [isNotFoundPage, setIsNotFoundPage] = useState(initialRoute.is404);
 
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(() => {
     return sessionStorage.getItem('subsathi_admin_auth') === 'true';
@@ -190,31 +231,8 @@ export const CartProvider = ({ children }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [activePolicyModal, setActivePolicyModal] = useState(null);
-  const [activePolicyPage, setActivePolicyPage] = useState(() => {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      return params.get('page') || null;
-    } catch {
-      return null;
-    }
-  });
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isAdminOpen, setIsAdminOpen] = useState(false);
-
-  // Dedicated Full Product Detail Page state
-  const [selectedProduct, setSelectedProduct] = useState(() => {
-    try {
-      const params = new URLSearchParams(window.location.search);
-      const productSlug = params.get('product');
-      if (productSlug) {
-        const found = productsList.find(p => p.slug === productSlug || p.id === productSlug);
-        if (found) return found;
-      }
-      return null;
-    } catch {
-      return null;
-    }
-  });
 
   const [coupon, setCoupon] = useState('');
   const [discountPercent, setDiscountPercent] = useState(0);
@@ -300,37 +318,35 @@ export const CartProvider = ({ children }) => {
   // Handle browser back/forward buttons & URL path changes
   useEffect(() => {
     const handlePopState = () => {
-      const params = new URLSearchParams(window.location.search);
-      const productSlug = params.get('product');
-      const pageParam = params.get('page');
-      const isAdmin = checkIsAdminUrl();
-      const isBilling = checkIsBillingUrl();
-      
-      setIsAdminPortalOpen(isAdmin);
-      setIsBillingPageOpen(isBilling);
-      setActivePolicyPage(pageParam || null);
-
-      if (productSlug && !isAdmin && !isBilling && !pageParam) {
-        const found = productsList.find(p => p.slug === productSlug || p.id === productSlug);
-        setSelectedProduct(found || null);
-      } else {
-        setSelectedProduct(null);
-      }
+      const route = parseCurrentRoute(productsList);
+      setIsAdminPortalOpen(route.isAdmin);
+      setIsBillingPageOpen(route.isBilling);
+      setActivePolicyPage(route.policyPage);
+      setSelectedProduct(route.product);
+      setIsNotFoundPage(route.is404);
     };
 
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);
   }, [productsList]);
 
+  const goToHome = () => {
+    setIsNotFoundPage(false);
+    setIsAdminPortalOpen(false);
+    setIsBillingPageOpen(false);
+    setActivePolicyPage(null);
+    setSelectedProduct(null);
+    window.history.pushState({}, '', '/');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const openProductPage = (product) => {
     if (!product) {
-      setSelectedProduct(null);
-      const url = new URL(window.location.href);
-      url.searchParams.delete('product');
-      window.history.pushState({}, '', url.pathname);
+      closeProductPage();
       return;
     }
 
+    setIsNotFoundPage(false);
     setIsBillingPageOpen(false);
     setActivePolicyPage(null);
     setSelectedProduct(product);
@@ -344,9 +360,10 @@ export const CartProvider = ({ children }) => {
 
   const closeProductPage = () => {
     setSelectedProduct(null);
+    setIsNotFoundPage(false);
     const url = new URL(window.location.href);
     url.searchParams.delete('product');
-    window.history.pushState({}, '', url.pathname);
+    window.history.pushState({}, '', url.pathname === '/' ? '/' : '/');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -356,6 +373,7 @@ export const CartProvider = ({ children }) => {
       closePolicyPage();
       return;
     }
+    setIsNotFoundPage(false);
     setSelectedProduct(null);
     setIsBillingPageOpen(false);
     setActivePolicyModal(null);
@@ -370,6 +388,7 @@ export const CartProvider = ({ children }) => {
 
   const closePolicyPage = () => {
     setActivePolicyPage(null);
+    setIsNotFoundPage(false);
     const url = new URL(window.location.href);
     url.searchParams.delete('page');
     window.history.pushState({}, '', '/');
@@ -381,6 +400,7 @@ export const CartProvider = ({ children }) => {
     if (product) {
       addToCart(product, plan, quantity);
     }
+    setIsNotFoundPage(false);
     setIsCartOpen(false);
     setIsWishlistOpen(false);
     setSelectedProduct(null);
@@ -394,6 +414,7 @@ export const CartProvider = ({ children }) => {
 
   const closeBillingPage = () => {
     setIsBillingPageOpen(false);
+    setIsNotFoundPage(false);
     const url = new URL(window.location.href);
     url.searchParams.delete('view');
     window.history.pushState({}, '', '/');
@@ -402,6 +423,7 @@ export const CartProvider = ({ children }) => {
 
   // Switch to Admin view (Secret Route /aresxayu6720)
   const openAdminPortal = (tab = 'dashboard') => {
+    setIsNotFoundPage(false);
     setIsAdminPortalOpen(true);
     setAdminTab(tab);
     setSelectedProduct(null);
@@ -416,6 +438,7 @@ export const CartProvider = ({ children }) => {
   // Exit Admin view
   const closeAdminPortal = () => {
     setIsAdminPortalOpen(false);
+    setIsNotFoundPage(false);
     const url = new URL(window.location.href);
     url.searchParams.delete('view');
     url.searchParams.delete('aresxayu6720');
@@ -781,6 +804,11 @@ export const CartProvider = ({ children }) => {
         openBillingPage,
         closeBillingPage,
         setIsCheckoutOpen: openBillingPage,
+
+        // 404 Not Found Page State
+        isNotFoundPage,
+        setIsNotFoundPage,
+        goToHome,
 
         // Full Admin Portal Secret Route
         isAdminPortalOpen,

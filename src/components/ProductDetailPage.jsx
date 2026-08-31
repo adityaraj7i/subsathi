@@ -383,14 +383,14 @@ export const ProductDetailPage = ({ product, onBack, onSelectProduct }) => {
 
         {/* Related Products */}
         {relatedProducts.length > 0 && (
-          <div className="mt-16 pt-10 border-t border-gray-200">
+          <div className="mt-16 pt-10 border-t border-gray-200 pb-20 sm:pb-0">
             <div className="mb-6">
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                 You Might Also Like
               </h3>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
               {relatedProducts.map((relProduct) => (
                 <div
                   key={relProduct.id}
@@ -402,6 +402,46 @@ export const ProductDetailPage = ({ product, onBack, onSelectProduct }) => {
             </div>
           </div>
         )}
+      </div>
+
+      {/* Mobile Phone Sticky Bottom Action Bar (Daraz/Amazon Style) */}
+      <div className="fixed bottom-0 left-0 right-0 p-3 bg-white/95 backdrop-blur-md border-t border-gray-200 shadow-2xl z-30 sm:hidden flex items-center justify-between gap-3 font-poppins">
+        <div>
+          <div className="text-[10px] text-gray-500 font-semibold">Total Price</div>
+          <div className="text-lg font-black text-[#293d67] font-inter leading-none">
+            Rs {selectedPlan.price * (isOutOfStock ? 0 : quantity)}
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2 flex-1 justify-end">
+          <button
+            type="button"
+            disabled={isOutOfStock}
+            onClick={handleBuyNow}
+            className={`py-2.5 px-4 rounded-xl border-2 font-bold text-xs transition-colors flex items-center justify-center gap-1 ${
+              isOutOfStock
+                ? 'border-gray-200 bg-gray-100 text-gray-400'
+                : 'border-[#293d67] text-[#293d67] active:bg-blue-50'
+            }`}
+          >
+            <Zap className="w-3.5 h-3.5" />
+            <span>Buy Now</span>
+          </button>
+
+          <button
+            type="button"
+            disabled={isOutOfStock}
+            onClick={() => addToCart(liveProduct, selectedPlan, quantity)}
+            className={`py-2.5 px-4 rounded-xl font-bold text-xs transition-all shadow-sm flex items-center justify-center gap-1 text-white ${
+              isOutOfStock
+                ? 'bg-gray-300'
+                : 'bg-[#293d67] active:bg-[#1e4cb1]'
+            }`}
+          >
+            <ShoppingBag className="w-3.5 h-3.5" />
+            <span>Add</span>
+          </button>
+        </div>
       </div>
     </div>
   );

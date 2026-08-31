@@ -16,11 +16,16 @@ import { getBrandIconBySlug, BrandIcons } from '../../assets/brandIcons';
 
 export const AdminHeroBadges = () => {
   const { heroBadges, updateHeroBadges, productsList, resetHeroBadges } = useCart();
-
-  const [badges, setBadges] = useState(() => JSON.parse(JSON.stringify(heroBadges)));
+  const [badges, setBadges] = useState(() => JSON.parse(JSON.stringify(heroBadges || [])));
   const [activeFlippedCard, setActiveFlippedCard] = useState({});
   const [savedSuccess, setSavedSuccess] = useState(false);
   const fileInputRefs = useRef({});
+
+  useEffect(() => {
+    if (heroBadges && heroBadges.length > 0) {
+      setBadges(JSON.parse(JSON.stringify(heroBadges)));
+    }
+  }, [heroBadges]);
 
   // Preset vector logos available
   const presetBrands = [

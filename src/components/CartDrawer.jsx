@@ -39,7 +39,7 @@ export const CartDrawer = () => {
   const handleWhatsAppQuickOrder = () => {
     if (cart.length === 0) return;
     const itemsList = cart
-      .map(i => `- ${i.product.name} (${i.plan.name}) x${i.quantity} = Rs. ${i.price * i.quantity}`)
+      .map(i => `- ${i.product?.name || 'Item'} (${i.plan?.name || 'Standard'}) x${i.quantity} = Rs. ${i.price * i.quantity}`)
       .join('\n');
     const msg = `Hello SubSathi, I would like to order:\n${itemsList}\nTotal: Rs. ${totalAmount}\nPlease share payment QR.`;
     window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
@@ -55,7 +55,7 @@ export const CartDrawer = () => {
       />
 
       {/* Drawer */}
-      <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
+      <div className="absolute inset-y-0 right-0 max-w-full flex pl-4 sm:pl-10">
         <div className="w-screen max-w-md bg-white border-l border-gray-200 shadow-2xl flex flex-col justify-between animate-in slide-in-from-right duration-300">
           
           {/* Header */}
@@ -82,17 +82,17 @@ export const CartDrawer = () => {
           <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-3">
             {cart.length > 0 ? (
               cart.map((item) => {
-                const IconComponent = getBrandIconBySlug(item.product.slug);
+                const IconComponent = getBrandIconBySlug(item.product?.slug);
                 return (
                   <div
                     key={item.cartItemId}
                     className="flex gap-3 p-3 bg-white rounded-xl border border-gray-200 shadow-xs hover:border-[#293d67]/40 transition-colors"
                   >
                     <div className="w-14 h-14 rounded-lg bg-gray-50 p-1.5 border border-gray-100 flex items-center justify-center shrink-0">
-                      {item.product.logoUrl ? (
+                      {item.product?.logoUrl || item.product?.image ? (
                         <img
-                          src={item.product.logoUrl}
-                          alt={item.product.name}
+                          src={item.product?.logoUrl || item.product?.image}
+                          alt={item.product?.name}
                           className="w-full h-full object-contain"
                           onError={(e) => { e.target.style.display = 'none'; }}
                         />
@@ -105,7 +105,7 @@ export const CartDrawer = () => {
                       <div>
                         <div className="flex justify-between items-start">
                           <h4 className="font-bold text-xs sm:text-sm text-gray-900 line-clamp-1">
-                            {item.product.name}
+                            {item.product?.name}
                           </h4>
                           <button
                             onClick={() => removeFromCart(item.cartItemId)}

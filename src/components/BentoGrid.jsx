@@ -1,3 +1,5 @@
+import React from 'react';
+import { Sparkles, Bot, Check, Tv, Palette, ShieldCheck, ArrowRight } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 export const BentoGrid = () => {

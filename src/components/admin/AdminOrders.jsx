@@ -40,7 +40,7 @@ export const AdminOrders = () => {
   };
 
   const handleSendCredentialsViaWhatsApp = (order) => {
-    const itemsList = order.items?.map(i => `${i.product.name} (${i.plan.name})`).join(', ');
+    const itemsList = order.items?.map(i => `${i.product?.name || 'Subscription'} (${i.plan?.name || 'Standard'})`).join(', ');
     const msg = `*SUBSATHI ORDER FULFILLED* 🇳🇵
 -------------------------------------
 Dear ${order.customerName},

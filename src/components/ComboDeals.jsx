@@ -53,10 +53,10 @@ export const ComboDeals = ({ products }) => {
       {/* Product Cards Row */}
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory pt-2"
+        className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory pt-2"
       >
         {comboProducts.map((product) => (
-          <div key={product.id} className="shrink-0 w-64 snap-start">
+          <div key={product.id} className="shrink-0 w-44 sm:w-60 md:w-64 snap-start">
             <ProductCard product={product} />
           </div>
         ))}

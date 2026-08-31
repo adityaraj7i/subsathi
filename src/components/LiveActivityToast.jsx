@@ -42,7 +42,7 @@ export const LiveActivityToast = () => {
   const activity = mockActivities[currentIdx];
 
   return (
-    <div className="fixed bottom-6 left-6 z-40 max-w-xs sm:max-w-sm glass-panel bg-slate-900/90 border border-cyan-500/30 p-3 rounded-2xl shadow-2xl shadow-black/80 flex items-center gap-3 animate-in slide-in-from-bottom-5 duration-300 font-jakarta text-slate-100">
+    <div className="fixed bottom-20 sm:bottom-6 left-3 sm:left-6 z-30 max-w-[280px] sm:max-w-sm glass-panel bg-slate-900/95 border border-cyan-500/30 p-2.5 sm:p-3 rounded-2xl shadow-2xl shadow-black/80 hidden sm:flex items-center gap-3 animate-in slide-in-from-bottom-5 duration-300 font-jakarta text-slate-100">
       <div className="w-8 h-8 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center shrink-0">
         <Zap className="w-4 h-4 fill-current text-cyan-400" />
       </div>

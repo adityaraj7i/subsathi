@@ -157,12 +157,12 @@ Please assist me with this ticket!`;
             </button>
             <span className="text-gray-300">|</span>
             <span className="text-gray-900 font-bold capitalize">
-              {page.replace('-', ' ')}
+              {page?.replace(/-/g, ' ') || 'Policy'}
             </span>
           </div>
 
-          {/* Quick Page Nav Pills */}
-          <div className="hidden md:flex items-center gap-1 overflow-x-auto py-1 scrollbar-none">
+          {/* Quick Page Nav Pills (Horizontally swipeable on phone) */}
+          <div className="flex items-center gap-1 overflow-x-auto py-1 scrollbar-none w-full md:w-auto order-last md:order-none">
             {navTabs.map((tab) => (
               <button
                 key={tab.id}
@@ -170,7 +170,7 @@ Please assist me with this ticket!`;
                 className={`px-3 py-1 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
                   page === tab.id
                     ? 'bg-[#293d67] text-white shadow-xs'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
+                    : 'bg-gray-100/80 md:bg-transparent text-gray-600 hover:text-gray-900 hover:bg-gray-100'
                 }`}
               >
                 {tab.label}

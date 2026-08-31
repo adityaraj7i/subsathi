@@ -54,37 +54,37 @@ export const FlashDeals = ({ products }) => {
           </h1>
 
           {/* Red Countdown Display matching OTT Sathi */}
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             <div className="flex flex-col items-center">
-              <span className="text-xs text-gray-600 font-inter">Days</span>
-              <div className="bg-red-500 text-white py-1 px-3 text-2xl rounded font-mono w-12 flex items-center justify-center font-bold">
+              <span className="text-[10px] sm:text-xs text-gray-600 font-inter">Days</span>
+              <div className="bg-red-500 text-white py-0.5 sm:py-1 px-2 sm:px-3 text-lg sm:text-2xl rounded-lg sm:rounded font-mono w-9 sm:w-12 flex items-center justify-center font-bold">
                 {formatNumber(timeLeft.days)}
               </div>
             </div>
 
-            <span className="text-xl font-bold pt-4 font-inter">:</span>
+            <span className="text-base sm:text-xl font-bold pt-3 sm:pt-4 font-inter text-red-500">:</span>
 
             <div className="flex flex-col items-center">
-              <span className="text-xs text-gray-600 font-inter">Hours</span>
-              <div className="bg-red-500 text-white py-1 px-3 text-2xl rounded font-mono w-12 flex items-center justify-center font-bold">
+              <span className="text-[10px] sm:text-xs text-gray-600 font-inter">Hours</span>
+              <div className="bg-red-500 text-white py-0.5 sm:py-1 px-2 sm:px-3 text-lg sm:text-2xl rounded-lg sm:rounded font-mono w-9 sm:w-12 flex items-center justify-center font-bold">
                 {formatNumber(timeLeft.hours)}
               </div>
             </div>
 
-            <span className="text-xl font-bold pt-4 font-inter">:</span>
+            <span className="text-base sm:text-xl font-bold pt-3 sm:pt-4 font-inter text-red-500">:</span>
 
             <div className="flex flex-col items-center">
-              <span className="text-xs text-gray-600 font-inter">Minutes</span>
-              <div className="bg-red-500 text-white py-1 px-3 text-2xl rounded font-mono w-12 flex items-center justify-center font-bold">
+              <span className="text-[10px] sm:text-xs text-gray-600 font-inter">Minutes</span>
+              <div className="bg-red-500 text-white py-0.5 sm:py-1 px-2 sm:px-3 text-lg sm:text-2xl rounded-lg sm:rounded font-mono w-9 sm:w-12 flex items-center justify-center font-bold">
                 {formatNumber(timeLeft.minutes)}
               </div>
             </div>
 
-            <span className="text-xl font-bold pt-4 font-inter">:</span>
+            <span className="text-base sm:text-xl font-bold pt-3 sm:pt-4 font-inter text-red-500">:</span>
 
             <div className="flex flex-col items-center">
-              <span className="text-xs text-gray-600 font-inter">Seconds</span>
-              <div className="bg-red-500 text-white py-1 px-3 text-2xl rounded font-mono w-12 flex items-center justify-center font-bold">
+              <span className="text-[10px] sm:text-xs text-gray-600 font-inter">Seconds</span>
+              <div className="bg-red-500 text-white py-0.5 sm:py-1 px-2 sm:px-3 text-lg sm:text-2xl rounded-lg sm:rounded font-mono w-9 sm:w-12 flex items-center justify-center font-bold">
                 {formatNumber(timeLeft.seconds)}
               </div>
             </div>
@@ -113,10 +113,10 @@ export const FlashDeals = ({ products }) => {
       {/* Product list */}
       <div
         ref={scrollRef}
-        className="flex gap-6 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory"
+        className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory"
       >
         {flashProducts.map((product) => (
-          <div key={product.id} className="shrink-0 w-64 snap-start">
+          <div key={product.id} className="shrink-0 w-44 sm:w-60 md:w-64 snap-start">
             <ProductCard product={product} />
           </div>
         ))}

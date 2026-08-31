@@ -11,7 +11,7 @@ export const WhatsAppButton = () => {
       target="_blank"
       rel="noopener noreferrer"
       href={`https://wa.me/${waNumber}?text=${encodeURIComponent('Hello SubSathi, I have an inquiry about subscription purchases.')}`}
-      className="fixed bottom-6 cursor-pointer right-6 z-50 bg-green-500 hover:bg-green-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 group"
+      className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-40 bg-[#25D366] hover:bg-green-600 text-white p-3.5 sm:p-4 rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 group cursor-pointer"
       aria-label="Contact SubSathi on WhatsApp"
     >
       <svg className="w-6 h-6 fill-current" viewBox="0 0 21 21">

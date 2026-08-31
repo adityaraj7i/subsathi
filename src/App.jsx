@@ -18,6 +18,7 @@ import { WishlistDrawer } from './components/WishlistDrawer';
 import { AuthModal } from './components/AuthModal';
 import { PolicyModal } from './components/PolicyModal';
 import { AdminLayout } from './components/admin/AdminLayout';
+import { NotFoundPage } from './components/NotFoundPage';
 import { useCart } from './context/CartContext';
 
 export function App() {
@@ -33,7 +34,9 @@ export function App() {
     isAdminPortalOpen,
     activePolicyPage,
     openPolicyPage,
-    closePolicyPage
+    closePolicyPage,
+    isNotFoundPage,
+    goToHome
   } = useCart();
 
   // If Admin Portal mode is active, render full Admin & CRM Suite
@@ -105,7 +108,7 @@ export function App() {
       />
 
       {/* Category Navigation Pills */}
-      {!selectedProduct && !isBillingPageOpen && !activePolicyPage && (
+      {!selectedProduct && !isBillingPageOpen && !activePolicyPage && !isNotFoundPage && (
         <CategoryNav
           selectedCategory={selectedCategory}
           onSelectCategory={handleSelectCategory}
@@ -115,8 +118,11 @@ export function App() {
       {/* Main Content Area */}
       <main className="flex-1">
         
-        {/* CASE 1: Dedicated Policy & Quick Links Standalone Page */}
-        {activePolicyPage ? (
+        {/* CASE 0: 404 Not Found Page for invalid URLs */}
+        {isNotFoundPage ? (
+          <NotFoundPage onGoHome={goToHome} />
+        ) : activePolicyPage ? (
+          /* CASE 1: Dedicated Policy & Quick Links Standalone Page */
           <PolicyPages
             page={activePolicyPage}
             onBack={closePolicyPage}

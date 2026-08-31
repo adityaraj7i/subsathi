@@ -25,7 +25,7 @@ export const WishlistDrawer = () => {
       />
 
       {/* Drawer */}
-      <div className="absolute inset-y-0 right-0 max-w-full flex pl-10">
+      <div className="absolute inset-y-0 right-0 max-w-full flex pl-4 sm:pl-10">
         <div className="w-screen max-w-md bg-white border-l border-gray-200 shadow-2xl flex flex-col justify-between animate-in slide-in-from-right duration-300">
           
           {/* Header */}
@@ -42,6 +42,7 @@ export const WishlistDrawer = () => {
             <button
               onClick={() => setIsWishlistOpen(false)}
               className="w-8 h-8 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-600 flex items-center justify-center transition-colors cursor-pointer"
+              aria-label="Close cart"
             >
               <X className="w-4 h-4" />
             </button>
@@ -64,9 +65,9 @@ export const WishlistDrawer = () => {
                       }}
                       className="w-14 h-14 rounded-lg bg-gray-50 p-1.5 border border-gray-100 flex items-center justify-center shrink-0 cursor-pointer"
                     >
-                      {product.logoUrl ? (
+                      {product.logoUrl || product.image ? (
                         <img
-                          src={product.logoUrl}
+                          src={product.logoUrl || product.image}
                           alt={product.name}
                           className="w-full h-full object-contain"
                           onError={(e) => { e.target.style.display = 'none'; }}

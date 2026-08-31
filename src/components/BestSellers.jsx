@@ -109,10 +109,10 @@ export const BestSellers = ({
         <div>
           <div
             ref={scrollRef}
-            className="flex gap-6 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory"
+            className="flex gap-4 sm:gap-6 overflow-x-auto pb-4 hide-scrollbar snap-x snap-mandatory"
           >
             {filtered.slice(0, 10).map((product) => (
-              <div key={product.id} className="shrink-0 w-60 sm:w-64 snap-start">
+              <div key={product.id} className="shrink-0 w-44 sm:w-60 md:w-64 snap-start">
                 <ProductCard product={product} />
               </div>
             ))}
@@ -136,7 +136,7 @@ export const BestSellers = ({
         /* CASE 2: Clean 4-Column Paginated Grid (Exact Screenshot 2) */
         <div>
           {paginatedProducts.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-3 sm:gap-6">
               {paginatedProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
