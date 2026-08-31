@@ -152,14 +152,15 @@ export const CartProvider = ({ children }) => {
     }
   });
 
-  // Comprehensive route parser to determine active view, product, policy, admin, or 404 Not Found
+  // Strict route parser: Only official root '/' and secret admin page are allowed.
+  // Any other typed path (e.g. /xyz, /random, /test, /abc) immediately shows 404!
   const parseCurrentRoute = (products = productsList) => {
     try {
       const rawPath = window.location.pathname.toLowerCase().replace(/\/+$/, '');
       const path = rawPath === '' ? '/' : rawPath;
       const params = new URLSearchParams(window.location.search);
 
-      // 1. Check if Admin Portal URL (/aresxayu6720 or ?view=aresxayu6720)
+      // 1. Secret Admin Route (/aresxayu6720 or ?view=aresxayu6720)
       if (
         path === '/aresxayu6720' ||
         params.get('view') === 'aresxayu6720' ||
@@ -168,12 +169,18 @@ export const CartProvider = ({ children }) => {
         return { isAdmin: true, isBilling: false, policyPage: null, product: null, is404: false };
       }
 
-      // 2. Check if Billing / Checkout URL (/billing or /checkout or ?view=billing)
-      if (path === '/billing' || path === '/checkout' || params.get('view') === 'billing') {
+      // 2. Strict Check: If path is NOT root '/' and NOT '/index.html', it MUST show 404!
+      if (path !== '/' && path !== '/index.html') {
+        return { isAdmin: false, isBilling: false, policyPage: null, product: null, is404: true };
+      }
+
+      // 3. Allowed official queries on root '/':
+      // (a) Billing Checkout view
+      if (params.get('view') === 'billing') {
         return { isAdmin: false, isBilling: true, policyPage: null, product: null, is404: false };
       }
 
-      // 3. Check if Policy Pages (/about-us, /contact, etc. or ?page=about-us)
+      // (b) Policy pages via query (?page=...)
       const policyKeys = [
         'about-us',
         'contact',
@@ -184,16 +191,13 @@ export const CartProvider = ({ children }) => {
         'terms-conditions',
         'support-desk'
       ];
-      const matchedPolicy = policyKeys.find(k => path === `/${k}`) || (params.get('page') && policyKeys.includes(params.get('page')) ? params.get('page') : null);
-      if (matchedPolicy) {
-        return { isAdmin: false, isBilling: false, policyPage: matchedPolicy, product: null, is404: false };
+      const paramPolicy = params.get('page');
+      if (paramPolicy && policyKeys.includes(paramPolicy)) {
+        return { isAdmin: false, isBilling: false, policyPage: paramPolicy, product: null, is404: false };
       }
 
-      // 4. Check if Product Detail Page (/product/:slug or ?product=slug)
-      let productSlug = params.get('product');
-      if (!productSlug && (path.startsWith('/product/') || path.startsWith('/p/'))) {
-        productSlug = path.split('/')[2];
-      }
+      // (c) Product detail page via query (?product=...)
+      const productSlug = params.get('product');
       if (productSlug) {
         const found = products.find(p => p.slug === productSlug || p.id === productSlug);
         if (found) {
@@ -201,13 +205,8 @@ export const CartProvider = ({ children }) => {
         }
       }
 
-      // 5. Official Root Homepage
-      if (path === '/' || path === '/index.html') {
-        return { isAdmin: false, isBilling: false, policyPage: null, product: null, is404: false };
-      }
-
-      // 6. Any other entered path -> 404 NOT FOUND
-      return { isAdmin: false, isBilling: false, policyPage: null, product: null, is404: true };
+      // (d) Official Root Homepage
+      return { isAdmin: false, isBilling: false, policyPage: null, product: null, is404: false };
     } catch {
       return { isAdmin: false, isBilling: false, policyPage: null, product: null, is404: false };
     }

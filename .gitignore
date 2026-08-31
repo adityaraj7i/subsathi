@@ -33,3 +33,4 @@ dist-ssr
 .turbo
 
 .vercel
+.env*
