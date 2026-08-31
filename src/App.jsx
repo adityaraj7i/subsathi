@@ -19,6 +19,7 @@ import { AuthModal } from './components/AuthModal';
 import { PolicyModal } from './components/PolicyModal';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { NotFoundPage } from './components/NotFoundPage';
+import { MobileBottomNav } from './components/MobileBottomNav';
 import { useCart } from './context/CartContext';
 
 export function App() {
@@ -195,6 +196,9 @@ export function App() {
       <WishlistDrawer />
       <AuthModal />
       <PolicyModal />
+
+      {/* Mobile App-Style Bottom Navigation Bar */}
+      <MobileBottomNav />
     </div>
   );
 }

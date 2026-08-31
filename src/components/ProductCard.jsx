@@ -34,10 +34,10 @@ export const ProductCard = ({ product }) => {
   return (
     <div
       onClick={() => openProductPage(liveProduct)}
-      className="group font-poppins cursor-pointer flex flex-col transition-all duration-200"
+      className="group font-poppins cursor-pointer flex flex-col transition-all duration-300 hover:-translate-y-1.5"
     >
       {/* Clean Standardized Product Image Box */}
-      <div className="relative w-full aspect-square bg-[#f4f6f8] hover:bg-[#edf1f5] rounded-2xl p-4 sm:p-5 flex items-center justify-center border border-gray-100 transition-all duration-300 group-hover:shadow-md overflow-hidden">
+      <div className="relative w-full aspect-square bg-[#f4f6f8] hover:bg-[#edf1f5] rounded-2xl p-4 sm:p-5 flex items-center justify-center border border-gray-100 transition-all duration-300 group-hover:shadow-lg group-hover:border-[#293d67]/20 overflow-hidden">
         
         {/* Top Tag for Combo Deals if applicable */}
         {isCombo && (

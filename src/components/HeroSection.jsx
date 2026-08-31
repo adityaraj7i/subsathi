@@ -81,11 +81,38 @@ export const HeroSection = ({ onShopNow, onComboDeals }) => {
       </div>
 
       {/* Central Message Container */}
-      <div className="relative z-20 flex items-center justify-center h-full px-4 sm:px-6 py-12">
-        <div className="relative w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl p-4 sm:p-8 flex flex-col items-center justify-center text-center">
+      <div className="relative z-20 flex items-center justify-center h-full px-4 sm:px-6 py-10 sm:py-12">
+        <div className="relative w-full max-w-2xl lg:max-w-3xl xl:max-w-4xl p-2 sm:p-8 flex flex-col items-center justify-center text-center">
           
+          {/* Mobile Phone Floating App Badges Strip */}
+          <div className="sm:hidden mb-4 flex items-center gap-2 overflow-x-auto max-w-full py-1.5 px-1 scrollbar-none">
+            {[
+              { name: 'ChatGPT', slug: 'chatgpt-plus' },
+              { name: 'Netflix 4K', slug: 'netflix' },
+              { name: 'Canva Pro', slug: 'canva-pro' },
+              { name: 'Gemini', slug: 'gemini-pro-5tb-storage' },
+              { name: 'Spotify', slug: 'spotify' }
+            ].map((app, i) => {
+              const AppIcon = getBrandIconBySlug(app.slug);
+              return (
+                <button
+                  key={app.slug}
+                  onClick={() => handleCardClick(app.slug)}
+                  className={`inline-flex items-center gap-1.5 px-3 py-1 bg-white border border-gray-200 rounded-full shadow-xs text-[11px] font-bold text-gray-800 shrink-0 cursor-pointer ${
+                    i % 2 === 0 ? 'animate-float' : 'animate-float-reverse'
+                  }`}
+                >
+                  <div className="w-4 h-4 flex items-center justify-center">
+                    <AppIcon className="w-full h-full" />
+                  </div>
+                  <span>{app.name}</span>
+                </button>
+              );
+            })}
+          </div>
+
           {/* Headline */}
-          <h1 className="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold font-poppins text-gray-900 leading-[1.15] mb-4 tracking-tight">
+          <h1 className="text-2xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold font-poppins text-gray-900 leading-[1.15] mb-3 sm:mb-4 tracking-tight">
             Nepal's Ultimate Hub for Premium Digital Subscriptions
           </h1>
 
@@ -95,10 +122,10 @@ export const HeroSection = ({ onShopNow, onComboDeals }) => {
           </p>
 
           {/* CTA Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-3">
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-6 sm:mb-8">
             <button
               onClick={onShopNow}
-              className="flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 border-2 border-[#293d67] bg-[#293d67] text-white font-poppins font-semibold rounded-full hover:bg-[#1e4cb1] hover:border-[#1e4cb1] transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer text-sm sm:text-base"
+              className="flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 border-2 border-[#293d67] bg-[#293d67] text-white font-poppins font-semibold rounded-full hover:bg-[#1e4cb1] hover:border-[#1e4cb1] transition-all duration-300 shadow-md hover:shadow-lg cursor-pointer text-sm sm:text-base hover:scale-105 active:scale-95"
             >
               <svg className="w-4 h-4 sm:w-5 sm:h-5 fill-current" viewBox="0 0 28 32">
                 <path d="M15.6497 0C17.04 0 18.3492 0.633454 19.2971 1.71875C20.1592 2.70581 20.6632 3.99761 20.7454 5.34961C21.3456 5.37005 21.8839 5.40597 22.3655 5.46973C23.5092 5.62118 24.4384 5.94016 25.1877 6.6543L25.3235 6.79004C25.9813 7.48323 26.3152 8.35449 26.5149 9.42383C26.724 10.5437 26.8025 11.9813 26.9026 13.8008L27.3567 22.0264L27.4329 23.458C27.5001 24.8126 27.5312 25.9386 27.4563 26.8701C27.3548 28.1329 27.0515 29.1583 26.2844 29.9766C25.5161 30.7961 24.5147 31.1606 23.2668 31.333C22.0414 31.5023 20.4628 31.5 18.4622 31.5H14.5129C14.495 31.5 14.4768 31.4983 14.4592 31.4971C13.9963 31.4999 13.506 31.5 12.9875 31.5H9.03833C7.0377 31.5 5.45911 31.5023 4.23364 31.333C2.9858 31.1606 1.98438 30.7961 1.21606 29.9766C0.448945 29.1583 0.144526 28.133 0.0432129 26.8701C-0.0564079 25.6282 0.0330848 24.0406 0.144775 22.0264L0.596924 13.8008L0.670166 12.5068C0.744442 11.2824 0.827645 10.2637 0.984619 9.42383C1.19777 8.28344 1.56438 7.36846 2.31274 6.6543C3.06206 5.94014 3.99132 5.62119 5.13501 5.46973C5.26032 5.45314 5.38964 5.43884 5.52271 5.42578C5.63529 4.25159 5.99051 2.89842 7.02075 1.71875C7.9685 0.633665 9.27715 0.000187574 10.6672 0C11.5553 0 12.4097 0.260055 13.1584 0.729492C13.9073 0.259884 14.7615 6.68876e-05 15.6497 0Z"/>
@@ -108,10 +135,24 @@ export const HeroSection = ({ onShopNow, onComboDeals }) => {
 
             <button
               onClick={onComboDeals}
-              className="flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 border-2 border-orange-500 bg-orange-50 text-orange-600 hover:bg-orange-500 hover:text-white font-poppins font-semibold rounded-full transition-all duration-300 shadow-xs cursor-pointer text-sm sm:text-base"
+              className="flex items-center gap-2 px-6 sm:px-7 py-2.5 sm:py-3 border-2 border-orange-500 bg-orange-50 text-orange-600 hover:bg-orange-500 hover:text-white font-poppins font-semibold rounded-full transition-all duration-300 shadow-xs cursor-pointer text-sm sm:text-base hover:scale-105 active:scale-95"
             >
               <span>Combo Deals (50% OFF)</span>
             </button>
+          </div>
+
+          {/* Floating Trust Pills */}
+          <div className="flex flex-wrap items-center justify-center gap-2 text-[11px] sm:text-xs text-gray-500 font-medium">
+            <span className="inline-flex items-center gap-1.5 bg-blue-50/80 border border-blue-200/60 px-3 py-1 rounded-full text-blue-900 font-semibold shadow-xs">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              ⚡ &lt;15 Mins WhatsApp Delivery
+            </span>
+            <span className="inline-flex items-center gap-1.5 bg-emerald-50/80 border border-emerald-200/60 px-3 py-1 rounded-full text-emerald-900 font-semibold shadow-xs">
+              🛡️ 100% Replacement Warranty
+            </span>
+            <span className="inline-flex items-center gap-1.5 bg-purple-50/80 border border-purple-200/60 px-3 py-1 rounded-full text-purple-900 font-semibold shadow-xs">
+              🇳🇵 eSewa & Khalti Instant
+            </span>
           </div>
         </div>
       </div>
